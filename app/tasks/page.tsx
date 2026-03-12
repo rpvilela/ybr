@@ -269,7 +269,7 @@ export default function Tarefas() {
                     </span>
                   </div>
                   <h4 className="text-lg font-bold mb-1">
-                    <Link href={`/tarefas/${task.id}`} className="hover:text-blue-600 transition-colors">
+                    <Link href={`/tasks/${task.id}`} className="hover:text-blue-600 transition-colors">
                       {task.title}
                     </Link>
                   </h4>
@@ -285,7 +285,7 @@ export default function Tarefas() {
                     </button>
                     <button
                       title="Editar"
-                      onClick={() => router.push(`/tarefas/${task.id}`)}
+                      onClick={() => router.push(`/tasks/${task.id}`)}
                       className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
                     >
                       <Edit className="w-5 h-5" />

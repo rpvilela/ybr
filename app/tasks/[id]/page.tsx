@@ -270,7 +270,7 @@ export default function TarefaDetalhes() {
             <AlertDialogAction
               onClick={() => {
                 removeTask(task.id);
-                router.push('/tarefas');
+                router.push('/tasks');
               }}
             >
               Excluir

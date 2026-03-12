@@ -9,15 +9,15 @@ export default function Sidebar() {
 
   const navItems = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-    { name: 'Tarefas do Dia', href: '/tarefas', icon: Calendar },
-    { name: 'Visualizar tarefas', href: '/visualizar', icon: Columns },
-    { name: 'Relatórios', href: '/relatorios', icon: BarChart2 },
+    { name: 'Tarefas do Dia', href: '/tasks', icon: Calendar },
+    { name: 'Visualizar tarefas', href: '/view', icon: Columns },
+    { name: 'Relatórios', href: '/reports', icon: BarChart2 },
   ];
 
-  const isConfigActive = pathname === '/configuracoes';
+  const isConfigActive = pathname === '/settings';
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 flex-col justify-between p-4 shrink-0 overflow-y-auto hidden lg:flex">
+    <aside className="w-64 h-screen bg-white border-r border-slate-200 hidden lg:flex lg:flex-col justify-between p-4 shrink-0 overflow-y-auto">
       <div className="flex flex-col gap-8">
         <div className="flex items-center gap-3 px-2">
           <div className="bg-blue-600/10 rounded-full p-2 flex items-center justify-center">
@@ -54,7 +54,7 @@ export default function Sidebar() {
 
       <div className="mt-8">
         <Link
-          href="/configuracoes"
+          href="/settings"
           className={`flex items-center justify-center gap-2 rounded-lg h-10 px-4 text-sm font-bold transition-all ${
             isConfigActive
               ? 'bg-blue-700 text-white'

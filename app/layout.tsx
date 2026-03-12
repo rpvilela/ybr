@@ -19,12 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br" className={inter.variable}>
-      <body className="bg-[#f6f7f8] text-slate-900 font-sans min-h-screen flex" suppressHydrationWarning>
+      <body className="bg-[#f6f7f8] text-slate-900 font-sans h-screen flex overflow-hidden" suppressHydrationWarning>
         <TaskProvider>
           <Sidebar />
-          <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+          <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-y-auto">
             {children}
-          </div>
+          </main>
           <NewTaskModal />
         </TaskProvider>
       </body>

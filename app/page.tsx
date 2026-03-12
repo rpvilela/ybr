@@ -85,7 +85,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <h4 className="text-lg font-bold mb-1 text-slate-900">
-                  <Link href={`/tarefas/${task.id}`} className="hover:text-blue-600 transition-colors">
+                  <Link href={`/tasks/${task.id}`} className="hover:text-blue-600 transition-colors">
                     {task.title}
                   </Link>
                 </h4>
@@ -116,7 +116,7 @@ export default function Dashboard() {
               <List className="text-blue-600 w-6 h-6" />
               <h3 className="text-xl font-bold text-slate-900">Todas as Tarefas</h3>
             </div>
-            <Link href="/tarefas" className="text-sm font-semibold text-blue-600 hover:underline">Ver todas</Link>
+            <Link href="/tasks" className="text-sm font-semibold text-blue-600 hover:underline">Ver todas</Link>
           </div>
           <div className="bg-white rounded-xl border border-slate-200 overflow-hidden overflow-x-auto">
             <table className="w-full text-left min-w-[600px]">
@@ -134,7 +134,7 @@ export default function Dashboard() {
                 {allTasks.map(task => (
                   <tr key={task.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4">
-                      <Link href={`/tarefas/${task.id}`} className="text-sm font-bold text-slate-900 hover:text-blue-600 transition-colors">
+                      <Link href={`/tasks/${task.id}`} className="text-sm font-bold text-slate-900 hover:text-blue-600 transition-colors">
                         {task.title}
                       </Link>
                     </td>

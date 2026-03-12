@@ -102,7 +102,7 @@ export default function VisualizarPage() {
                       key={task.id}
                       className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm hover:shadow-md hover:border-blue-200 transition-all"
                     >
-                      <Link href={`/tarefas/${task.id}`} className="block">
+                      <Link href={`/tasks/${task.id}`} className="block">
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${priorityClass(task.priority)}`}>
                           {task.priority}
                         </span>
