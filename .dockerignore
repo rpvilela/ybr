@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build output (rebuilt inside container)
+.next
+out
+
+# Git e IDE
+.git
+.gitignore
+.cursor
+.vscode
+*.md
+
+# Env e secrets
+.env
+.env.*
+!.env.example
+
+# Debug e testes
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+.yarn
+coverage
+.nyc_output
+*.test.*
+*.spec.*
+
+# Docker
+Dockerfile*
+.dockerignore
+docker-compose*
+.docker
+
+# Outros
+.DS_Store
+Thumbs.db
