@@ -2,11 +2,13 @@
 
 import { useState, useRef } from 'react';
 import { useTasks } from '@/context/TaskContext';
+import { useNotes } from '@/context/NotesContext';
 import { Plus, X, Users, Building2, Download, Upload } from 'lucide-react';
 import Header from '@/components/Header';
 
 export default function Configuracoes() {
   const { teams, responsibles, addTeam, removeTeam, addResponsible, removeResponsible, exportData, importData } = useTasks();
+  const { removeNote } = useNotes();
   const [newTeam, setNewTeam] = useState('');
   const [newResponsible, setNewResponsible] = useState('');
   const [importError, setImportError] = useState<string | null>(null);
@@ -91,7 +93,7 @@ export default function Configuracoes() {
                   <span className="text-sm font-medium text-slate-700">{team}</span>
                   <button
                     title="Remover time"
-                    onClick={() => removeTeam(team)}
+                    onClick={() => { removeNote({ type: 'team', name: team }); removeTeam(team); }}
                     className="p-1 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <X className="w-4 h-4" />
@@ -140,7 +142,7 @@ export default function Configuracoes() {
                   <span className="text-sm font-medium text-slate-700">{name}</span>
                   <button
                     title="Remover responsável"
-                    onClick={() => removeResponsible(name)}
+                    onClick={() => { removeNote({ type: 'responsible', name }); removeResponsible(name); }}
                     className="p-1 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <X className="w-4 h-4" />

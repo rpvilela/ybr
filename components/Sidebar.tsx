@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Calendar, BarChart2, Columns, Settings, Brain } from 'lucide-react';
+import { LayoutDashboard, Calendar, BarChart2, Columns, Settings, Brain, StickyNote } from 'lucide-react';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -10,7 +10,8 @@ export default function Sidebar() {
   const navItems = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Tarefas do Dia', href: '/tasks', icon: Calendar },
-    { name: 'Visualizar tarefas', href: '/view', icon: Columns },
+    { name: 'Board', href: '/board', icon: Columns },
+    { name: 'Anotações', href: '/notes', icon: StickyNote },
     { name: 'Relatórios', href: '/reports', icon: BarChart2 },
   ];
 

@@ -2,7 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { useTasks } from '@/context/TaskContext';
+import { useNotes } from '@/context/NotesContext';
 import { X } from 'lucide-react';
+
+function formatDateToDisplay(isoDate: string): string {
+  const [y, m, d] = isoDate.split('T')[0].split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
 
 type AddCheckpointModalProps = {
   taskId: string;
@@ -11,14 +25,15 @@ type AddCheckpointModalProps = {
 };
 
 export default function AddCheckpointModal({ taskId, open, onClose }: AddCheckpointModalProps) {
-  const { addCheckpoint } = useTasks();
-  const [date, setDate] = useState('');
+  const { addCheckpoint, tasks } = useTasks();
+  const { appendToNote } = useNotes();
   const [comment, setComment] = useState('');
+  const [insertAsNote, setInsertAsNote] = useState(false);
 
   useEffect(() => {
     if (open) {
-      setDate(new Date().toISOString().slice(0, 10));
       setComment('');
+      setInsertAsNote(false);
     }
   }, [open]);
 
@@ -26,7 +41,29 @@ export default function AddCheckpointModal({ taskId, open, onClose }: AddCheckpo
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addCheckpoint(taskId, { date, comment });
+    const now = new Date().toISOString();
+    addCheckpoint(taskId, { date: now, comment });
+
+    if (insertAsNote && comment.trim()) {
+      const task = tasks.find(t => t.id === taskId);
+      if (task) {
+        const dateFormatted = formatDateToDisplay(now);
+        const line = `${dateFormatted} - ${escapeHtml(comment.trim())}`;
+        const snippet = `<p>${line}</p>`;
+
+        const teamName = task.team?.trim();
+        if (teamName) {
+          appendToNote({ type: 'team', name: teamName }, snippet);
+        }
+        (task.assignees || []).forEach((name: string) => {
+          const responsibleName = name?.trim();
+          if (responsibleName) {
+            appendToNote({ type: 'responsible', name: responsibleName }, snippet);
+          }
+        });
+      }
+    }
+
     onClose();
   };
 
@@ -42,19 +79,6 @@ export default function AddCheckpointModal({ taskId, open, onClose }: AddCheckpo
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="space-y-2">
-            <label htmlFor="checkpoint-date" className="text-sm font-semibold text-slate-700">Data</label>
-            <input
-              id="checkpoint-date"
-              required
-              value={date}
-              onChange={e => setDate(e.target.value)}
-              type="date"
-              title="Data do checkpoint"
-              aria-label="Data do checkpoint"
-              className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 outline-none transition-all"
-            />
-          </div>
-          <div className="space-y-2">
             <label htmlFor="checkpoint-comment" className="text-sm font-semibold text-slate-700">Comentário</label>
             <textarea
               id="checkpoint-comment"
@@ -67,6 +91,22 @@ export default function AddCheckpointModal({ taskId, open, onClose }: AddCheckpo
               className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 outline-none transition-all resize-none"
             />
           </div>
+          <div className="flex items-center gap-2">
+            <input
+              id="checkpoint-insert-as-note"
+              type="checkbox"
+              checked={insertAsNote}
+              onChange={e => setInsertAsNote(e.target.checked)}
+              className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-600"
+              aria-label="Inserir como anotação"
+            />
+            <label htmlFor="checkpoint-insert-as-note" className="text-sm font-medium text-slate-700 cursor-pointer">
+              Inserir como anotação
+            </label>
+          </div>
+          <p className="text-xs text-slate-500">
+            Quando marcado, a data e o texto serão adicionados como anotação para o time e os responsáveis da tarefa (formato: data - texto).
+          </p>
           <div className="flex items-center justify-end gap-3 pt-2">
             <button
               type="button"
